@@ -137,7 +137,10 @@ if( $object instanceof eZContentObject ) {
 
 	if( $user instanceof eZUser ) {
 		$user->loginCurrent();
-    
+        
+        /*
+         * I have pulled this from the kernel/user/login.php file to allow for the use of the LoginRedirectionUriAttribute
+         */
         $redirectionURI = false;
         if ( is_object( $user ) )
         {
