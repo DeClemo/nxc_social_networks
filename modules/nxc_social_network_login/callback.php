@@ -139,6 +139,22 @@ if( $object instanceof eZContentObject ) {
 		$user->loginCurrent();
         
         /*
+         * Update DB with users Social Media UID
+         */
+        $db = eZDB::instance();
+        $insertQuery = "INSERT INTO nxc_social_network_uid ("
+                     . "userID, "
+                     . "socialUID "
+                     . ") "
+                     . "VALUES ("
+                     . "'" . $db->escapeString($object->attribute( 'id' )) . "', "
+                     . "'" . $db->escapeString($remoteID) . "' "
+                     . ") ON DUPLICATE KEY UPDATE socialUID=VALUES(socialUID)";
+        $db->begin();
+        $db->query( $insertQuery );
+        $db->commit();
+        
+        /*
          * I have pulled this from the kernel/user/login.php file to allow for the use of the LoginRedirectionUriAttribute
          */
         $redirectionURI = false;
